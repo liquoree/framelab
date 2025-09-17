@@ -1,0 +1,86 @@
+project-root/
+├── index.html                
+├── package.json
+├── tsconfig.json
+├── tsconfig.node.json       
+├── vite.config.ts
+├── .eslintrc.cjs        
+├── .prettierrc            
+├── .gitignore
+│
+├── public/                   # статика (favicon, manifest, иконки)
+│   └── favicon.ico
+│
+└── src/
+    ├── main.tsx              # входная точка приложения
+    ├── vite-env.d.ts         # типы для vite
+    │
+    ├── app/                  # корневое приложение
+    │   ├── App.tsx
+    │   ├── index.tsx      
+    │   └── styles/
+    │       ├── globals.scss  # глобальные стили
+    │       ├── variables.scss
+    │       └── mixins.scss
+    │
+    ├── modules/              # бизнес-модули
+    │   ├── canvas/
+    │   │   ├── components/
+    │   │   │   ├── CanvasBoard.tsx
+    │   │   │   └── OnionSkin.tsx
+    │   │   ├── hooks/
+    │   │   │   └── useCanvas.ts
+    │   │   ├── utils/
+    │   │   │   └── drawUtils.ts
+    │   │   └── types.ts
+    │   │
+    │   ├── frames/
+    │   │   ├── components/
+    │   │   │   └── FrameTimeline.tsx
+    │   │   ├── hooks/
+    │   │   │   └── useFrames.ts
+    │   │   └── types.ts
+    │   │
+    │   ├── tools/
+    │   │   ├── components/
+    │   │   │   ├── ToolsPanel.tsx
+    │   │   │   ├── ColorPicker.tsx
+    │   │   │   └── BrushSize.tsx
+    │   │   └── hooks/
+    │   │       └── useTools.ts
+    │   │
+    │   ├── player/
+    │   │   ├── components/
+    │   │   │   └── Player.tsx
+    │   │   ├── hooks/
+    │   │   │   └── usePlayer.ts
+    │   │   └── types.ts
+    │   │
+    │   ├── exporter/
+    │   │   ├── components/
+    │   │   │   └── ExportDialog.tsx
+    │   │   ├── hooks/
+    │   │   │   └── useExporter.ts
+    │   │   └── utils/
+    │   │       └── gifEncoder.ts
+    │   │
+    │   ├── storage/
+    │   │   ├── hooks/
+    │   │   │   └── useStorage.ts
+    │   │   └── utils/
+    │   │       └── db.ts
+    │   │
+    │   └── shared/
+    │       ├── components/
+    │       │   ├── Button.tsx
+    │       │   ├── Slider.tsx
+    │       │   └── Modal.tsx
+    │       ├── hooks/
+    │       │   └── useHotkeys.ts
+    │       ├── utils/
+    │       │   └── math.ts
+    │       └── types/
+    │           └── common.ts
+    │
+    └── assets/                # иконки, изображения
+        └── icons/
