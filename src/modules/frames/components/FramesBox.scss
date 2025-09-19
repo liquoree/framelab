@@ -1,0 +1,74 @@
+@use '../../../app/styles/variables.scss' as *;
+
+.frames-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 112px;
+  padding-bottom: 15px;
+  margin-top: 10px;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: transparent;
+  scroll-behavior: smooth;
+  scrollbar-color: $gray transparent;
+
+  &::-webkit-scrollbar {
+    height: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray;
+    border-radius: 2px;
+  }
+
+  .frame {
+    flex: 0 0 auto;
+    width: 200px;
+    height: 112px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid $light-gray;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+
+    &:hover {
+      border-color: $gray;
+
+      .frame__delete-frame {
+        opacity: 1;
+      }
+    }
+
+    &.selected {
+      border: 2px solid $blue;
+    }
+
+    &__delete-frame {
+      position: absolute;
+      z-index: 100;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      top: 5px;
+      right: 5px;
+      transition: all 0.2s ease-in-out;
+      opacity: 0;
+    }
+  }
+
+  .add-frame {
+    font-size: 48px;
+    color: $gray;
+
+    &:hover {
+      color: $blue;
+      border-color: $blue;
+    }
+  }
+}

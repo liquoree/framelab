@@ -1,0 +1,125 @@
+@use '../../app/styles/variables.scss' as *;
+
+.header {
+  max-width: 1440px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  position: relative;
+
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
+
+  &__wrapper {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    background-color: $blue;
+
+    @media (max-width: 768px) {
+      height: 50px;
+    }
+  }
+
+  &__logo {
+    width: 150px;
+    height: 39px;
+    user-select: none;
+
+    @media (max-width: 768px) {
+      width: 94px;
+      height: 25px;
+    }
+  }
+
+  &__buttons-box--desktop {
+    display: flex;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__buttons-box--mobile {
+    display: none;
+
+    &.active {
+      .header__buttons-box--mobile__menu-icon {
+        transform: rotate(90deg);
+      }
+      .header__buttons-box--mobile__buttons {
+        max-height: 44px;
+        opacity: 1;
+      }
+    }
+
+    &__menu-icon {
+      size: 20px 27px;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: end;
+      gap: 10px;
+      align-items: center;
+      height: 44px;
+      box-shadow: 0px 2px 10px rgba($color: #000000, $alpha: 0.1);
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 100vw;
+      padding: 0 20px;
+      width: fit-content;
+      border-bottom-left-radius: 10px;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+      overflow: hidden;
+
+      @media (max-width: 400px) {
+        justify-content: space-between;
+        gap: 0;
+        width: 100vw;
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
+
+  &__button {
+    width: fit-content;
+    height: 34px;
+    background-color: $white;
+    color: $blue;
+    border-radius: 10px;
+    font-size: 20px;
+    border: none;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 15px;
+    cursor: pointer;
+    user-select: none;
+
+    @media (max-width: 768px) {
+      height: 24px;
+      background-color: $blue;
+      color: $white;
+      border-radius: 7px;
+      font-size: 14px;
+      padding: 0 10px;
+    }
+  }
+}
