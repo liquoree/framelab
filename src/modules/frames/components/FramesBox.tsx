@@ -1,54 +1,33 @@
-import { useEffect, useRef, useState } from 'react'
-import type { Frame } from '../types'
-import './FramesBox.scss'
+import { useFrames } from '../hooks/useFrames'
+import { useAutoScroll } from '../hooks/useAutoScroll'
 import Delete from '../../../assets/delete.svg'
+import './FramesBox.scss'
 
 export const FramesBox = () => {
-  const [selectedFrame, setSelectedFrame] = useState(1)
-  const [frames, setFrames] = useState<Frame[]>([
-    { id: '1' },
-    { id: '2' },
-    { id: '3' },
-  ])
-  const containerRef = useRef<HTMLDivElement>(null)
+  const { frames, selectedFrame, setSelectedFrame, addFrame, deleteFrame } =
+    useFrames()
 
-  const addFrame = () => {
-    const newFrame: Frame = {
-      id: String(frames.length + 1),
-    }
-    setFrames([...frames, newFrame])
-    setSelectedFrame(frames.length + 1)
-  }
-
-  const deleteFrame = (id: number) => {
-    setFrames(frames.filter((frame) => frame.id != String(id)))
-  }
-
-  // автопрокрутка вправо при добавлении кадра
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({
-        left: containerRef.current.scrollWidth,
-        behavior: 'smooth',
-      })
-    }
-  }, [frames.length])
+  const containerRef = useAutoScroll<HTMLDivElement>(frames)
 
   return (
     <div className="frames-box" ref={containerRef}>
-      {frames.map((frame, id) => (
+      {frames.map((frame) => (
         <div
-          id={String(id + 1)}
-          className={`frame ${selectedFrame == id + 1 ? 'selected' : ''}`}
-          onClick={() => setSelectedFrame(id + 1)}
+          key={frame.id}
+          id={String(frame.index)}
+          className={`frame ${selectedFrame === frame.index ? 'selected' : ''}`}
+          onClick={() => setSelectedFrame(frame.index)}
         >
           <img
             src={Delete}
             alt="delete-frame"
             className="frame__delete-frame"
-            onClick={() => deleteFrame(id + 1)}
+            onClick={(e) => {
+              e.stopPropagation()
+              deleteFrame(frame.index)
+            }}
           />
-          Frame {frame.id}
+          Frame {frame.index}
         </div>
       ))}
       <div className="frame add-frame" onClick={addFrame}>

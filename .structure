@@ -1,187 +1,55 @@
-project-root/
-├── index.html                
-├── package.json
-├── tsconfig.json
-├── tsconfig.node.json       
-├── vite.config.ts
-├── .eslintrc.cjs        
-├── .prettierrc            
-├── .gitignore
-│
-├── public/                   # статика (favicon, manifest, иконки)
-│   └── favicon.ico
-│
-└── src/
-    ├── main.tsx
-    ├── vite-env.d.ts
-    │
-    ├── app/                  # корневое приложение
-    │   ├── App.tsx
-    │   ├── index.tsx      
-    │   └── styles/
-    │       ├── globals.scss  # глобальные стили
-    │       ├── variables.scss
-    │       └── mixins.scss
-    │
-    ├── modules/              # бизнес-модули
-    │   ├── canvas/
-    │   │   ├── components/
-    │   │   │   ├── CanvasBoard.tsx
-    │   │   │   └── OnionSkin.tsx
-    │   │   ├── hooks/
-    │   │   │   └── useCanvas.ts
-    │   │   ├── utils/
-    │   │   │   └── drawUtils.ts
-    │   │   └── types.ts
-    │   │
-    │   ├── frames/
-    │   │   ├── components/
-    │   │   │   └── FrameTimeline.tsx
-    │   │   ├── hooks/
-    │   │   │   └── useFrames.ts
-    │   │   └── types.ts
-    │   │
-    │   ├── tools/
-    │   │   ├── components/
-    │   │   │   ├── ToolsPanel.tsx
-    │   │   │   ├── ColorPicker.tsx
-    │   │   │   └── BrushSize.tsx
-    │   │   └── hooks/
-    │   │       └── useTools.ts
-    │   │
-    │   ├── player/
-    │   │   ├── components/
-    │   │   │   └── Player.tsx
-    │   │   ├── hooks/
-    │   │   │   └── usePlayer.ts
-    │   │   └── types.ts
-    │   │
-    │   ├── exporter/
-    │   │   ├── components/
-    │   │   │   └── ExportDialog.tsx
-    │   │   ├── hooks/
-    │   │   │   └── useExporter.ts
-    │   │   └── utils/
-    │   │       └── gifEncoder.ts
-    │   │
-    │   ├── storage/
-    │   │   ├── hooks/
-    │   │   │   └── useStorage.ts
-    │   │   └── utils/
-    │   │       └── db.ts
-    │   │
-    │   └── shared/
-    │       ├── components/
-    │       │   ├── Button.tsx
-    │       │   ├── Slider.tsx
-    │       │   └── Modal.tsx
-    │       ├── hooks/
-    │       │   └── useHotkeys.ts
-    │       ├── utils/
-    │       │   └── math.ts
-    │       └── types/
-    │           └── common.ts
-    │
-    └── assets/                # иконки, изображения
-        └── icons/
+modules/
+├── canvas/                  # сам холст для рисования
+│   ├── components/
+│   │   └── CanvasBoard.tsx   # главный компонент канваса
+│   ├── hooks/
+│   │   └── useCanvas.ts      # логика рисования (кисть, ластик и т.п.)
+│   ├── utils/
+│   │   └── drawUtils.ts      # вспомогательные функции (рисование линий и т.д.)
+│   ├── types.ts
+│   └── index.ts
 
+├── tools/                   # панель инструментов справа
+│   ├── components/
+│   │   ├── ToolsPanel.tsx    # панель целиком
+│   │   ├── ToolButton.tsx    # кнопка инструмента (кисть/ластик)
+│   │   ├── ColorPicker.tsx   # выбор цвета
+│   │   └── BrushSize.tsx     # слайдер размера кисти
+│   ├── hooks/
+│   │   └── useTools.ts       # состояние текущего инструмента
+│   └── index.ts
 
-🔹 Этап 1. Базовый каркас проекта
+├── frames/                  # таймлайн кадров снизу
+│   ├── components/
+│   │   ├── FrameTimeline.tsx # список кадров
+│   │   └── FrameItem.tsx     # отдельная миниатюра кадра
+│   ├── hooks/
+│   │   └── useFrames.ts      # управление кадрами (добавить, удалить и т.д.)
+│   ├── utils/
+│   │   └── frameUtils.ts     # копирование, очистка и т.п.
+│   ├── types.ts
+│   └── index.ts
 
-Настроить проект (Vite + React + TS + SCSS).
+├── player/                  # проигрыватель анимации
+│   ├── components/
+│   │   └── Player.tsx        # управление воспроизведением
+│   ├── hooks/
+│   │   └── usePlayer.ts      # логика проигрывания кадров
+│   ├── types.ts
+│   └── index.ts
 
-Подключить глобальные стили (globals.scss, переменные).
+├── exporter/                # экспорт анимации (GIF/WebM)
+│   ├── components/
+│   │   └── ExportDialog.tsx  # окно экспорта с настройками
+│   ├── hooks/
+│   │   └── useExporter.ts    # логика экспорта
+│   ├── utils/
+│   │   └── gifEncoder.ts     # обертка для gif.js
+│   └── index.ts
 
-Сделать App.tsx с макетом:
-
-сверху ToolsPanel,
-
-центр CanvasBoard,
-
-снизу FrameTimeline,
-
-справа/слева Player и ExportDialog.
-
-🔹 Этап 2. Canvas (рисование)
-
-Реализовать компонент CanvasBoard на <canvas>.
-
-Подключить useCanvas:
-
-рисование кистью (размер, цвет);
-
-ластик (стирание прозрачностью).
-
-Добавить кнопку «Очистить текущий кадр».
-
-🔹 Этап 3. Frames (управление кадрами)
-
-Сделать FramesManager (хук useFrames): массив кадров (ImageData[]).
-
-Функционал:
-
-добавить новый кадр,
-
-удалить кадр,
-
-очистить все кадры.
-
-FrameTimeline для отображения миниатюр и выбора активного кадра.
-
-при клике — загрузка кадра в CanvasBoard.
-
-🔹 Этап 4. Tools (панель инструментов)
-
-Сделать ToolsPanel: кнопки «кисть» и «ластик».
-
-Добавить ColorPicker для выбора цвета.
-
-Сделать BrushSize (слайдер толщины кисти).
-
-Вынести всё в useTools (состояние активного инструмента).
-
-🔹 Этап 5. Player (проигрывание анимации)
-
-Реализовать usePlayer: проигрывание кадров через requestAnimationFrame или setInterval.
-
-Добавить регулировку FPS (10 / 15 / 24).
-
-Сделать Player компонент: кнопки Play/Stop + слайдер FPS.
-
-🔹 Этап 6. Exporter (экспорт анимации)
-
-Подключить gif.js.
-
-Реализовать useExporter:
-
-собрать кадры (ImageData) в GIF,
-
-учитывать выбранный FPS,
-
-экспортировать результат (.gif).
-
-Сделать ExportDialog с выбором параметров (FPS).
-
-🔹 Этап 7. Storage (сохранение/загрузка)
-
-Написать db.ts для IndexedDB.
-
-Хук useStorage:
-
-сохранять текущий проект (кадры + инструменты),
-
-загружать проект при открытии страницы.
-
-Кнопка «Начать заново» (очистка всего проекта).
-
-🔹 Этап 8. Улучшения (по желанию)
-
-Onion Skin (просвечивание предыдущего кадра).
-
-Undo/Redo (через стек состояний ImageData).
-
-Горячие клавиши (shared/hooks/useHotkeys.ts).
-
-Экспорт в PNG-последовательность или WebM.
-
-Темизация (светлая/тёмная).
+└── storage/                 # сохранение и загрузка проектов
+    ├── hooks/
+    │   └── useStorage.ts     # сохранение в IndexedDB
+    ├── utils/
+    │   └── db.ts             # обертка над IndexedDB
+    └── index.ts
