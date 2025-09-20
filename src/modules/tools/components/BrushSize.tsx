@@ -11,7 +11,7 @@ export const BrushSize = ({ value, onChange }: BrushSizeProps) => {
       <input
         type="range"
         min={1}
-        max={10}
+        max={100}
         step={1}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
