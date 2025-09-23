@@ -8,7 +8,7 @@ type HeaderProps = {
   onRestartClick: () => void
 }
 
-export const Header = ( {onPreviewClick, onRestartClick}: HeaderProps ) => {
+export const Header = ({ onPreviewClick, onRestartClick }: HeaderProps) => {
   const [menuIsActive, setMenuIsActive] = useState(false)
 
   return (

@@ -24,7 +24,7 @@ export function useCanvasBoard() {
     if (!ctx) return
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
-    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalCompositeOperation = 'source-over'
     // ctx.fillStyle = '#ffffff'
     // ctx.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -40,7 +40,7 @@ export function useCanvasBoard() {
     if (!ctx) return
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalCompositeOperation = 'source-over'
 
     const frame = frames.find((f) => f.index === selectedFrame)
     if (frame?.image) {
@@ -60,20 +60,20 @@ export function useCanvasBoard() {
   }
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || !ctxRef.current) return;
+    if (!isDrawing || !ctxRef.current) return
 
     if (tools.tool === 'rubber') {
-      ctxRef.current.globalCompositeOperation = 'destination-out';
-      ctxRef.current.strokeStyle = '#000000'; // Opaque black (color doesn't matter, but must be fully opaque for erasure to work)
+      ctxRef.current.globalCompositeOperation = 'destination-out'
+      ctxRef.current.strokeStyle = '#000000' // Opaque black (color doesn't matter, but must be fully opaque for erasure to work)
     } else {
-      ctxRef.current.globalCompositeOperation = 'source-over';
-      ctxRef.current.strokeStyle = tools.color;
+      ctxRef.current.globalCompositeOperation = 'source-over'
+      ctxRef.current.strokeStyle = tools.color
     }
 
-    ctxRef.current.lineWidth = tools.size;
-    ctxRef.current.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-    ctxRef.current.stroke();
-  };
+    ctxRef.current.lineWidth = tools.size
+    ctxRef.current.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
+    ctxRef.current.stroke()
+  }
 
   const stopDrawing = () => {
     if (!ctxRef.current || !canvasRef.current) return
@@ -90,8 +90,8 @@ export function useCanvasBoard() {
     if (!canvas || !ctx) return
     // ctx.fillStyle = '#ffffff'
     // ctx.fillRect(0, 0, canvas.width, canvas.height)
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = 'source-over'
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     updateFrameImage(selectedFrame, canvas.toDataURL('image/png'))
   }
 

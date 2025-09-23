@@ -25,7 +25,10 @@ export const App = () => {
   return (
     <AppProvider>
       <div className="app">
-        <Header onPreviewClick={handlePreviewClick} onRestartClick={handleRestartClick} />
+        <Header
+          onPreviewClick={handlePreviewClick}
+          onRestartClick={handleRestartClick}
+        />
         <div className="app__box">
           <div className="app__workspace">
             <CanvasBoard />

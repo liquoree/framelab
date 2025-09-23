@@ -1,6 +1,6 @@
-import { useState } from "react"
-import FpsArrow from "../../../../assets/fps-arrow.svg"
-import "./FPSControl.scss"
+import { useState } from 'react'
+import FpsArrow from '../../../../assets/fps-arrow.svg'
+import './FPSControl.scss'
 
 interface FPSControlProps {
   min?: number
@@ -10,8 +10,14 @@ interface FPSControlProps {
   isPlaying?: boolean
 }
 
-export const FPSControl = ({ min = 1, max = 60, initial = 10, onChange, isPlaying }: FPSControlProps) => {
-  const [fps, setFps] = useState<number | "">(initial)
+export const FPSControl = ({
+  min = 1,
+  max = 60,
+  initial = 10,
+  onChange,
+  isPlaying,
+}: FPSControlProps) => {
+  const [fps, setFps] = useState<number | ''>(initial)
 
   const updateFps = (newValue: number) => {
     const clamped = Math.max(min, Math.min(max, newValue))
@@ -21,8 +27,8 @@ export const FPSControl = ({ min = 1, max = 60, initial = 10, onChange, isPlayin
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    if (value === "") {
-      setFps("")
+    if (value === '') {
+      setFps('')
       return
     }
     const parsed = parseInt(value, 10)
@@ -32,7 +38,7 @@ export const FPSControl = ({ min = 1, max = 60, initial = 10, onChange, isPlayin
   }
 
   const confirmValue = () => {
-    if (fps === "") {
+    if (fps === '') {
       setFps(initial)
       onChange?.(initial)
       return
@@ -43,26 +49,26 @@ export const FPSControl = ({ min = 1, max = 60, initial = 10, onChange, isPlayin
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       confirmValue()
       ;(e.target as HTMLInputElement).blur() // убираем фокус, чтобы имитировать submit
     }
   }
 
   return (
-    <div className={`fps-control ${isPlaying ? "fps-control--disabled" : ""}`}>
+    <div className={`fps-control ${isPlaying ? 'fps-control--disabled' : ''}`}>
       <div className="fps-control__arrows">
         <img
           src={FpsArrow}
           alt="increase fps"
           className="fps-control__arrow fps-control__arrow--up"
-          onClick={() => updateFps((fps === "" ? initial : fps) + 1)}
+          onClick={() => updateFps((fps === '' ? initial : fps) + 1)}
         />
         <img
           src={FpsArrow}
           alt="decrease fps"
           className="fps-control__arrow fps-control__arrow--down"
-          onClick={() => updateFps((fps === "" ? initial : fps) - 1)}
+          onClick={() => updateFps((fps === '' ? initial : fps) - 1)}
         />
       </div>
 

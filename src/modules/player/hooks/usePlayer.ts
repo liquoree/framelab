@@ -1,5 +1,5 @@
-import { useRef, useState } from "react"
-import { type Frame } from "../../frames"
+import { useRef, useState } from 'react'
+import { type Frame } from '../../frames'
 
 export function usePlayer(frames: Frame[]) {
   const [currentFrame, setCurrentFrame] = useState(0)
@@ -18,7 +18,7 @@ export function usePlayer(frames: Frame[]) {
     }
 
     intervalRef.current = window.setInterval(() => {
-      setCurrentFrame(prev => {
+      setCurrentFrame((prev) => {
         if (prev >= frames.length - 1) {
           finish()
           return prev
@@ -38,14 +38,14 @@ export function usePlayer(frames: Frame[]) {
     setPlayBtnIsShown(true)
   }
 
-    const finish = () => {
-        if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-        intervalRef.current = null
-        }
-        setIsPlaying(false)
-        setPlayBtnIsShown(true)
+  const finish = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+      intervalRef.current = null
     }
+    setIsPlaying(false)
+    setPlayBtnIsShown(true)
+  }
 
   return {
     currentFrame,
