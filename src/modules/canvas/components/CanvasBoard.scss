@@ -1,4 +1,4 @@
-@use '../../../../app/styles/variables.scss' as *;
+@use '../../../app/styles/variables.scss' as *;
 
 .canvas {
   width: 100%;
@@ -9,11 +9,26 @@
   border-radius: 20px;
   overflow: hidden;
 
+  &__onion-skin {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: 1;
+  }
+
   &__board {
-    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent; 
     cursor: crosshair;
     width: 100%;
     height: 100%;
+    z-index: 2; 
   }
 
   &__clear-frame-btn {
@@ -26,3 +41,4 @@
     cursor: pointer;
   }
 }
+

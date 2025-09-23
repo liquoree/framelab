@@ -7,9 +7,10 @@ interface FPSControlProps {
   max?: number
   initial?: number
   onChange?: (fps: number) => void
+  isPlaying?: boolean
 }
 
-export const FPSControl = ({ min = 1, max = 60, initial = 10, onChange }: FPSControlProps) => {
+export const FPSControl = ({ min = 1, max = 60, initial = 10, onChange, isPlaying }: FPSControlProps) => {
   const [fps, setFps] = useState<number | "">(initial)
 
   const updateFps = (newValue: number) => {
@@ -49,7 +50,7 @@ export const FPSControl = ({ min = 1, max = 60, initial = 10, onChange }: FPSCon
   }
 
   return (
-    <div className="fps-control">
+    <div className={`fps-control ${isPlaying ? "fps-control--disabled" : ""}`}>
       <div className="fps-control__arrows">
         <img
           src={FpsArrow}

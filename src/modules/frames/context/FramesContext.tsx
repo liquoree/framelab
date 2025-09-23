@@ -5,11 +5,11 @@ function createBlankDataUrl(width: number, height: number): string {
   const canvas = document.createElement('canvas')
   canvas.width = width
   canvas.height = height
-  const ctx = canvas.getContext('2d')
-  if (ctx) {
-    ctx.fillStyle = '#ffffff'
-    ctx.fillRect(0, 0, width, height)
-  }
+  // const ctx = canvas.getContext('2d')
+  // if (ctx) {
+  //   ctx.fillStyle = '#ffffff'
+  //   ctx.fillRect(0, 0, width, height)
+  // }
   return canvas.toDataURL('image/png')
 }
 
