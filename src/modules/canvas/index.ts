@@ -1,1 +1,1 @@
-export { CanvasBoard } from './components/CanvasBoard'
+export { CanvasBoard } from './components/canvas-board/CanvasBoard'

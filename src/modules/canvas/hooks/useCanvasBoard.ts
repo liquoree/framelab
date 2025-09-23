@@ -1,10 +1,8 @@
-import './CanvasBoard.scss'
-import ClearIcon from '../../../assets/clear-frame.svg'
 import { useEffect, useRef, useState } from 'react'
 import { useTools } from '../../tools'
 import { useFrames } from '../../frames'
 
-export const CanvasBoard = () => {
+export function useCanvasBoard() {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
@@ -13,27 +11,7 @@ export const CanvasBoard = () => {
   const { tools } = useTools()
   const { frames, selectedFrame, updateFrameImage } = useFrames()
 
-    // загрузка выбранного кадра
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    const frame = frames.find(f => f.index === selectedFrame)
-    if (frame?.image) {
-      const img = new Image()
-      img.src = frame.image
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-      }
-    }
-  }, [selectedFrame])
-
-
+  // инициализация канваса
   useEffect(() => {
     const canvas = canvasRef.current
     const container = containerRef.current
@@ -42,12 +20,35 @@ export const CanvasBoard = () => {
     canvas.width = container.clientWidth
     canvas.height = container.clientHeight
 
-    const ctx = canvas.getContext("2d", { willReadFrequently: true })
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })
     if (!ctx) return
-    ctx.lineCap = "round"
-    ctx.lineJoin = "round"
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
     ctxRef.current = ctx
   }, [])
+
+  // загрузка выбранного кадра
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const frame = frames.find((f) => f.index === selectedFrame)
+    if (frame?.image) {
+      const img = new Image()
+      img.src = frame.image
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+      }
+    }
+  }, [selectedFrame])
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!ctxRef.current) return
@@ -59,20 +60,19 @@ export const CanvasBoard = () => {
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawing || !ctxRef.current) return
 
-    ctxRef.current.strokeStyle = tools.tool === "rubber" ? "#ffffff" : tools.color
+    ctxRef.current.strokeStyle =
+      tools.tool === 'rubber' ? '#ffffff' : tools.color
     ctxRef.current.lineWidth = tools.size
     ctxRef.current.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
     ctxRef.current.stroke()
   }
 
-
   const stopDrawing = () => {
-    if (!ctxRef.current) return
+    if (!ctxRef.current || !canvasRef.current) return
     ctxRef.current.closePath()
     setIsDrawing(false)
 
-    if (!canvasRef.current) return
-    const dataUrl = canvasRef.current.toDataURL("image/png")
+    const dataUrl = canvasRef.current.toDataURL('image/png')
     updateFrameImage(selectedFrame, dataUrl)
   }
 
@@ -80,31 +80,17 @@ export const CanvasBoard = () => {
     const canvas = canvasRef.current
     const ctx = ctxRef.current
     if (!canvas || !ctx) return
-    ctx.fillStyle = "#ffffff"
+    ctx.fillStyle = '#ffffff'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
-    updateFrameImage(selectedFrame, canvas.toDataURL("image/png"))
+    updateFrameImage(selectedFrame, canvas.toDataURL('image/png'))
   }
 
-
-  return (
-    <div className="canvas"  ref={containerRef}>
-      <canvas
-        ref={canvasRef}
-        width={500}
-        height={500}
-        onMouseDown={startDrawing}
-        onMouseMove={draw}
-        onMouseUp={stopDrawing}
-        onMouseLeave={stopDrawing}
-        onMouseEnter={(e: React.MouseEvent<HTMLCanvasElement>) => {if (e.buttons === 1) startDrawing(e)}}
-        className="canvas__board"
-      />
-      <img
-        src={ClearIcon}
-        alt="clear-frame"
-        className="canvas__clear-frame-btn"
-        onClick={clearCanvas}
-      />
-    </div>
-  )
+  return {
+    containerRef,
+    canvasRef,
+    startDrawing,
+    draw,
+    stopDrawing,
+    clearCanvas,
+  }
 }

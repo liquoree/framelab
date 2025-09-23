@@ -18,22 +18,20 @@ export const FramesBox = () => {
           className={`frame ${selectedFrame === frame.index ? 'selected' : ''}`}
           onClick={() => setSelectedFrame(frame.index)}
         >
-            <img
-                src={Delete}
-                alt="delete-frame"
-                className="frame__delete-frame"
-                onClick={(e) => {
-                e.stopPropagation()
-                deleteFrame(frame.index)
-                }}
-            />
-            <img
-                src={frame.image}
-                alt={`frame-${frame.index}`}
-                className="frame__preview"
-            />
-
-
+          <img
+            src={Delete}
+            alt="delete-frame"
+            className="frame__delete-frame"
+            onClick={(e) => {
+              e.stopPropagation()
+              deleteFrame(frame.index)
+            }}
+          />
+          <img
+            src={frame.image}
+            alt={`frame-${frame.index}`}
+            className="frame__preview"
+          />
         </div>
       ))}
       <div className="frame add-frame" onClick={addFrame}>

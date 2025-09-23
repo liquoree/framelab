@@ -1,23 +1,23 @@
-import { createContext, useContext, useState } from "react"
-import type { Frame } from "../types"
+import { createContext, useContext, useState } from 'react'
+import type { Frame } from '../types'
 
 function createBlankDataUrl(width: number, height: number): string {
-  const canvas = document.createElement("canvas")
+  const canvas = document.createElement('canvas')
   canvas.width = width
   canvas.height = height
-  const ctx = canvas.getContext("2d")
+  const ctx = canvas.getContext('2d')
   if (ctx) {
-    ctx.fillStyle = "#ffffff"
+    ctx.fillStyle = '#ffffff'
     ctx.fillRect(0, 0, width, height)
   }
-  return canvas.toDataURL("image/png")
+  return canvas.toDataURL('image/png')
 }
 
 function createFrame(index: number, width = 500, height = 500): Frame {
-  return { 
-    id: crypto.randomUUID(), 
-    index, 
-    image: createBlankDataUrl(width, height) 
+  return {
+    id: crypto.randomUUID(),
+    index,
+    image: createBlankDataUrl(width, height),
   }
 }
 
@@ -68,8 +68,8 @@ export const FramesProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const updateFrameImage = (index: number, image: string) => {
-    setFrames(prev =>
-      prev.map(f => (f.index === index ? { ...f, image } : f))
+    setFrames((prev) =>
+      prev.map((f) => (f.index === index ? { ...f, image } : f))
     )
   }
 
@@ -91,6 +91,6 @@ export const FramesProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useFrames = () => {
   const ctx = useContext(FramesContext)
-  if (!ctx) throw new Error("useFrames must be used inside FramesProvider")
+  if (!ctx) throw new Error('useFrames must be used inside FramesProvider')
   return ctx
 }

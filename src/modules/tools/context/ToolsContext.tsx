@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { createContext, useContext, useState, type ReactNode } from 'react'
 import type { Tool } from '../types'
 
 interface ToolsState {
@@ -18,18 +18,18 @@ const ToolsContext = createContext<ToolsContextType | undefined>(undefined)
 
 export const ToolsProvider = ({ children }: { children: ReactNode }) => {
   const [tools, setTools] = useState<ToolsState>({
-    tool: "brush",
-    color: "#000000",
+    tool: 'brush',
+    color: '#000000',
     size: 5,
   })
 
-    const setColor = (color: string) =>
+  const setColor = (color: string) =>
     setTools((prev) => (prev.color === color ? prev : { ...prev, color }))
 
-    const setSize = (size: number) =>
+  const setSize = (size: number) =>
     setTools((prev) => (prev.size === size ? prev : { ...prev, size }))
 
-    const setTool = (tool: Tool) =>
+  const setTool = (tool: Tool) =>
     setTools((prev) => (prev.tool === tool ? prev : { ...prev, tool }))
 
   return (
@@ -41,6 +41,6 @@ export const ToolsProvider = ({ children }: { children: ReactNode }) => {
 
 export const useTools = () => {
   const ctx = useContext(ToolsContext)
-  if (!ctx) throw new Error("useTools must be used within a ToolsProvider")
+  if (!ctx) throw new Error('useTools must be used within a ToolsProvider')
   return ctx
 }

@@ -1,7 +1,7 @@
-import { HsvColorPicker, type HsvColor } from "react-colorful"
-import { hsvToHex, hexToHsv } from "../utils/colorUtils"
-import { useState } from "react"
-import "./Tools.scss"
+import { HsvColorPicker, type HsvColor } from 'react-colorful'
+import { hsvToHex, hexToHsv } from '../utils/colorUtils'
+import { useState } from 'react'
+import './Tools.scss'
 
 interface ColorPickerProps {
   value: string
