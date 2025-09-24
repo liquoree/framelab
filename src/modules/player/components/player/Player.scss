@@ -1,4 +1,5 @@
 @use '../../../../app/styles/variables.scss' as *;
+@use 'sass:color';
 
 .player {
   display: flex;
@@ -34,6 +35,7 @@
     background: $blue;
     font-weight: 700;
     font-size: 20px;
+    z-index: 2;
   }
 
   &__settings {
@@ -43,6 +45,47 @@
     display: flex;
     align-items: center;
     gap: 50px;
+
+    &__formats {
+      padding: 0 15px;
+      background-color: $white;
+      box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.15);
+      display: flex;
+      gap: 10px;
+      position: absolute;
+      z-index: 9999;
+      border-bottom-right-radius: 10px;
+      border-bottom-left-radius: 10px;
+      top: calc(100% + 13px);
+      right: -25px;
+      user-select: none;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease-in-out;
+      opacity: 0;
+
+      &.active {
+        max-height: 300px;
+        padding: 10px 15px;
+        opacity: 1;
+      }
+
+      & div {
+        padding: 0 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        color: $white;
+        background-color: $blue;
+        display: flex;
+        align-items: center;
+        height: 34px;
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          background-color: color.adjust($blue, $lightness: -20%);
+        }
+      }
+    }
 
     &__fps {
       display: flex;
@@ -96,18 +139,29 @@
     }
 
     &__export {
-      display: inline-flex;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 34px;
-      padding: 0 15px;
-      background: $white;
-      color: $blue;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
 
-      span {
+      &__btn {
         line-height: 1;
+        height: 34px;
+        padding: 0 15px;
+        background: $white;
+        color: $blue;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.1s ease-in-out;
+        display: flex;
+        align-items: center;
+        user-select: none;
+
+        &:hover {
+          color: color.adjust($blue, $lightness: -20%);
+        }
       }
     }
   }
@@ -126,9 +180,10 @@
   }
 
   &__body {
-    height: 100%;
+    height: calc(100% - 60px);
     background: $clear-white;
     position: relative;
+    z-index: 1;
 
     &__inner {
       width: 100%;
@@ -151,6 +206,7 @@
       cursor: pointer;
       user-select: none;
     }
+
     &__stop {
       position: absolute;
       top: 10px;
