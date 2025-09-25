@@ -16,7 +16,7 @@ export const Player = ({ onClose }: PlayerProps) => {
   const [formatsAreShown, setFormatsAreShown] = useState(false)
   const exportRef = useRef<HTMLDivElement>(null)
 
-  const { handleExportGif } = useExporter(frames, fps)
+  const { handleExportGif, loading } = useExporter(frames, fps)
 
   const { currentFrame, isPlaying, playBtnIsShown, play, stop } =
     usePlayer(frames)
@@ -44,8 +44,8 @@ export const Player = ({ onClose }: PlayerProps) => {
   }, [formatsAreShown])
 
   return (
-    <div className="player__wrapper">
-      <div className="player">
+    <div className="player__wrapper" onClick={onClose}>
+      <div className="player" onClick={(e) => e.stopPropagation()}>
         <div className="player__header">
           <div className="player__settings">
             <FPSControl
@@ -56,15 +56,16 @@ export const Player = ({ onClose }: PlayerProps) => {
               isPlaying={isPlaying}
             />
             <div ref={exportRef} className="player__settings__export">
-              <div
+              <button
                 className="player__settings__export__btn"
                 onClick={(e) => {
                   e.stopPropagation()
                   handleExportGif()
                 }}
+                disabled={loading}
               >
-                <span>экспорт gif</span>
-              </div>
+                <span>{loading ? 'загрузка...' : 'экспорт gif'}</span>
+              </button>
             </div>
           </div>
           <div className="player__close" onClick={onClose}>
@@ -77,14 +78,10 @@ export const Player = ({ onClose }: PlayerProps) => {
             style={{ backgroundImage: `url('${frames[currentFrame].image}')` }}
           />
           {playBtnIsShown && (
-            <div className="player__body__play" onClick={() => play(fps)}>
-              PLAY
-            </div>
+            <div className="player__body__play" onClick={() => play(fps)} />
           )}
           {isPlaying && (
-            <div className="player__body__stop" onClick={stop}>
-              STOP
-            </div>
+            <div className="player__body__stop" onClick={stop} />
           )}
         </div>
       </div>

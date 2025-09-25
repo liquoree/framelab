@@ -23,6 +23,7 @@ interface FramesContextType {
   addFrame: () => void
   deleteFrame: (index: number) => void
   updateFrameImage: (index: number, image: string) => void
+  clearFrames: () => void
 }
 
 const FramesContext = createContext<FramesContextType | null>(null)
@@ -68,6 +69,13 @@ export const FramesProvider = ({ children }: { children: React.ReactNode }) => {
     )
   }
 
+  const clearFrames = () => {
+    const blankFrames = Array.from({ length: 3 }, (_, i) => createFrame(i + 1))
+    setFrames(blankFrames)
+    setSelectedFrame(1)
+  }
+
+
   return (
     <FramesContext.Provider
       value={{
@@ -77,6 +85,7 @@ export const FramesProvider = ({ children }: { children: React.ReactNode }) => {
         addFrame,
         deleteFrame,
         updateFrameImage,
+        clearFrames,
       }}
     >
       {children}

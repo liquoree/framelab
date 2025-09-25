@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { encode } from 'modern-gif'
 import workerUrl from 'modern-gif/worker?url'
 
@@ -36,19 +36,23 @@ const loadImages = async (frames: Frame[]): Promise<HTMLImageElement[]> => {
 }
 
 export const useExporter = (frames: Frame[], fps: number) => {
+  const [loading, setLoading] = useState(false)
+
   const handleExportGif = useCallback(async () => {
     try {
+      setLoading(true);
       console.log('▶ Начинаем экспорт GIF...')
       const images = await loadImages(frames)
       console.log(`Загружено кадров: ${images.length}`)
 
       if (images.length === 0) {
         console.warn('⚠ Нет кадров для экспорта GIF')
+        alert('Невозможно экспортировать: в анимации нет кадров')
         return
       }
 
       const { width, height } = images[0]
-      const delay = Math.round(1000 / fps) // fps → delay
+      const delay = Math.round(1000 / fps)
 
       const gifFrames = images.map((img, i) => {
         const canvas = document.createElement('canvas')
@@ -89,8 +93,10 @@ export const useExporter = (frames: Frame[], fps: number) => {
       console.log('✔ GIF сохранён как animation.gif')
     } catch (error) {
       console.error('❌ Ошибка экспорта GIF:', error)
+    } finally {
+        setLoading(false);
     }
   }, [frames, fps])
 
-  return { handleExportGif }
+  return { handleExportGif, loading }
 }

@@ -25,6 +25,11 @@
     width: 10px;
     height: 10px;
     user-select: none;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      scale: 1.2;
+    }
 
     &--down {
       transform: rotate(180deg);
@@ -55,5 +60,6 @@
   &__desc {
     color: $white;
     font-weight: 700;
+    user-select: none;
   }
 }
