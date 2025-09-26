@@ -75,7 +75,6 @@ export const FramesProvider = ({ children }: { children: React.ReactNode }) => {
     setSelectedFrame(1)
   }
 
-
   return (
     <FramesContext.Provider
       value={{

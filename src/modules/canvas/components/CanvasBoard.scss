@@ -41,3 +41,40 @@
     cursor: pointer;
   }
 }
+@media (max-width: 1373px) {
+  .canvas {
+    height: calc((100vw - 50px) / 16 * 9);
+
+    &__onion-skin {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.3;
+      z-index: 1;
+    }
+
+    &__board {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: transparent;
+      cursor: crosshair;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    &__clear-frame-btn {
+      width: 32px;
+      height: 32px;
+      position: absolute;
+      z-index: 10;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
+  }
+}

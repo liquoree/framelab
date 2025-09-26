@@ -7,9 +7,8 @@ import { AppProvider } from './context/AppProvider'
 import { Player } from '../modules/player'
 import './styles/App.scss'
 import { useState } from 'react'
-import { useFrames } from '../modules/frames' // важно: получаем clearFrames из контекста
+import { useFrames } from '../modules/frames'
 
-// этот внутренний компонент живет под провайдером, поэтому тут можно юзать useFrames
 const InnerApp = () => {
   const [isPlayerOpen, setIsPlayerOpen] = useState(false)
   const { clearFrames } = useFrames()
@@ -19,7 +18,6 @@ const InnerApp = () => {
   }
 
   const handleRestartClick = () => {
-    // очищаем кадры и по желанию закрываем плеер
     clearFrames()
     setIsPlayerOpen(false)
   }

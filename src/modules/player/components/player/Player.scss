@@ -120,7 +120,6 @@
         user-select: none;
 
         &:hover {
-          color: color.adjust($blue, $lightness: -20%);
           scale: 1.02;
         }
 

@@ -6,6 +6,10 @@
     width: 250px;
     height: 200px;
     border-radius: 10px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   .react-colorful__saturation {
@@ -27,12 +31,20 @@
     border: 3px solid $white;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   }
+
+  @media (max-width: 768px) {
+    order: 3;
+  }
 }
 
 // кнопки инструментов
 .tool-buttons {
   display: flex;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    order: 1;
+  }
 
   &__image {
     cursor: pointer;
@@ -120,6 +132,20 @@
   background-color: $clear-white;
   margin-top: 20px;
 
+  @media (min-width: 769px) and (max-width: 1373px) {
+    flex-direction: row;
+    width: 650px;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+
   &__element {
     display: flex;
     flex-direction: column;
@@ -130,5 +156,25 @@
       font-size: 24px;
       color: $black;
     }
+  }
+}
+
+.tools-panel__element:nth-child(1) {
+  @media (max-width: 768px) {
+    order: 1;
+    width: calc(50% - 25px / 2);
+  }
+}
+.tools-panel__element:nth-child(2) {
+  @media (max-width: 768px) {
+    order: 3;
+    flex-basis: 100%;
+    width: 100%;
+  }
+}
+.tools-panel__element:nth-child(3) {
+  @media (max-width: 768px) {
+    order: 2;
+    width: calc(50% - 25px / 2);
   }
 }

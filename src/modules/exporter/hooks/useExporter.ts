@@ -40,7 +40,7 @@ export const useExporter = (frames: Frame[], fps: number) => {
 
   const handleExportGif = useCallback(async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       console.log('▶ Начинаем экспорт GIF...')
       const images = await loadImages(frames)
       console.log(`Загружено кадров: ${images.length}`)
@@ -94,7 +94,7 @@ export const useExporter = (frames: Frame[], fps: number) => {
     } catch (error) {
       console.error('❌ Ошибка экспорта GIF:', error)
     } finally {
-        setLoading(false);
+      setLoading(false)
     }
   }, [frames, fps])
 

@@ -80,9 +80,7 @@ export const Player = ({ onClose }: PlayerProps) => {
           {playBtnIsShown && (
             <div className="player__body__play" onClick={() => play(fps)} />
           )}
-          {isPlaying && (
-            <div className="player__body__stop" onClick={stop} />
-          )}
+          {isPlaying && <div className="player__body__stop" onClick={stop} />}
         </div>
       </div>
     </div>
