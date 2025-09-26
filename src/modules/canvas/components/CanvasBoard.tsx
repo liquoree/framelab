@@ -19,11 +19,11 @@ export const CanvasBoard = () => {
       <canvas ref={onionRef} className="canvas__onion-skin" />
       <canvas
         ref={canvasRef}
-        onMouseDown={startDrawing}
-        onMouseMove={draw}
-        onMouseUp={stopDrawing}
-        onMouseLeave={stopDrawing}
-        onMouseEnter={(e: React.MouseEvent<HTMLCanvasElement>) => {
+        onPointerDown={startDrawing}
+        onPointerMove={draw}
+        onPointerUp={stopDrawing}
+        onPointerLeave={stopDrawing}
+        onPointerEnter={(e: React.PointerEvent<HTMLCanvasElement>) => {
           if (e.buttons === 1) startDrawing(e)
         }}
         className="canvas__board"
