@@ -8,9 +8,11 @@ export const useOnionSkin = (
   const { frames, selectedFrame } = useFrames()
 
   const prevImage = useMemo(() => {
-    if (selectedFrame <= 1) return null
-    const prevFrame = frames.find((f) => f.index === selectedFrame - 1)
-    return prevFrame?.image || null
+    if (selectedFrame != 'base') {
+      if (selectedFrame <= 1) return null
+      const prevFrame = frames.find((f) => f.index === selectedFrame - 1)
+      return prevFrame?.image || null
+    }
   }, [frames, selectedFrame])
 
   useEffect(() => {

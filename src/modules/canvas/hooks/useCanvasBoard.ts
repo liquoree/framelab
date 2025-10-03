@@ -1,3 +1,4 @@
+// useCanvasBoard.ts (логика канваса):
 import { useEffect, useRef, useState } from 'react'
 import { useTools } from '../../tools'
 import { useFrames } from '../../frames'
@@ -9,7 +10,15 @@ export function useCanvasBoard() {
   const [isDrawing, setIsDrawing] = useState(false)
 
   const { tools } = useTools()
-  const { frames, selectedFrame, updateFrameImage } = useFrames()
+  const {
+    frames,
+    selectedFrame,
+    updateFrameImage,
+    baseBackground,
+    setBaseBackground,
+    registerCanvasClear,
+    forceReload,
+  } = useFrames()
 
   // инициализация канваса
   useEffect(() => {
@@ -35,22 +44,35 @@ export function useCanvasBoard() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.globalCompositeOperation = 'source-over'
 
-    const frame = frames.find((f) => f.index === selectedFrame)
-    if (frame?.image) {
+    const drawFromSrc = (src: string) => {
+      if (!src) return
       const img = new Image()
-      img.src = frame.image
       img.onload = () => {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
       }
+      img.onerror = () => {
+        // можно залогировать, но это не обязательно
+      }
+      img.src = src
+      // если картинка уже готова (dataURL/кэш), onload может не прийти
+      if (img.complete) {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+      }
     }
-  }, [selectedFrame])
+
+    if (selectedFrame !== 'base') {
+      const frame = frames.find((f) => f.index === selectedFrame)
+      if (frame?.image) drawFromSrc(frame.image)
+    } else {
+      if (baseBackground) drawFromSrc(baseBackground)
+    }
+  }, [selectedFrame, forceReload]) // зависимости оставляем как были, чтобы не мигало при рисовании
 
   const startDrawing = (e: React.PointerEvent<HTMLCanvasElement>) => {
     if (e.pointerType === 'touch' || !ctxRef.current) return
@@ -64,7 +86,7 @@ export function useCanvasBoard() {
 
     if (tools.tool === 'rubber') {
       ctxRef.current.globalCompositeOperation = 'destination-out'
-      ctxRef.current.strokeStyle = '#000000' // Opaque black (color doesn't matter, but must be fully opaque for erasure to work)
+      ctxRef.current.strokeStyle = '#000000'
     } else {
       ctxRef.current.globalCompositeOperation = 'source-over'
       ctxRef.current.strokeStyle = tools.color
@@ -81,18 +103,55 @@ export function useCanvasBoard() {
     setIsDrawing(false)
 
     const dataUrl = canvasRef.current.toDataURL('image/png')
-    updateFrameImage(selectedFrame, dataUrl)
+    if (selectedFrame === 'base') {
+      setBaseBackground(dataUrl)
+    } else {
+      updateFrameImage(selectedFrame, dataUrl)
+    }
   }
 
+  // безопасная очистка: только визуально, без записи в стейт
+  const wipeCanvasOnly = () => {
+    const canvas = canvasRef.current
+    const ctx = ctxRef.current
+    if (!canvas || !ctx) return
+    ctx.globalCompositeOperation = 'source-over'
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+  }
+
+  // боевая очистка для кнопки "clear" — коммитит пустой кадр
   const clearCanvas = () => {
     const canvas = canvasRef.current
     const ctx = ctxRef.current
     if (!canvas || !ctx) return
-    // ctx.fillStyle = '#ffffff'
-    // ctx.fillRect(0, 0, canvas.width, canvas.height)
+
     ctx.globalCompositeOperation = 'source-over'
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    updateFrameImage(selectedFrame, canvas.toDataURL('image/png'))
+    if (selectedFrame != 'base')
+      updateFrameImage(selectedFrame, canvas.toDataURL('image/png'))
+  }
+
+  // регистрируем в контекст именно безопасную очистку
+  useEffect(() => {
+    registerCanvasClear(wipeCanvasOnly)
+    return () => registerCanvasClear(null)
+  }, [registerCanvasClear])
+
+  const dupePrevFrame = () => {
+    if (selectedFrame === 'base') return
+    const canvas = canvasRef.current
+    const ctx = ctxRef.current
+    if (!canvas || !ctx) return
+
+    const prevFrame = frames.find((f) => f.index === selectedFrame - 1)
+    if (!prevFrame) return
+    ctx.globalCompositeOperation = 'source-over'
+    const img = new Image()
+    img.src = prevFrame.image
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    }
   }
 
   return {
@@ -102,5 +161,6 @@ export function useCanvasBoard() {
     draw,
     stopDrawing,
     clearCanvas,
+    dupePrevFrame,
   }
 }

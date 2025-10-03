@@ -2,10 +2,13 @@ import { useTools } from '../context/ToolsContext'
 import { BrushSize } from './BrushSize'
 import { ColorPicker } from './ColorPicker'
 import { ToolButton } from './ToolButtons'
+import { useFrames } from '../../frames'
 import './Tools.scss'
 
 export const ToolsPanel = () => {
   const { tools, setTool, setColor, setSize } = useTools()
+
+  const { baseBackground, selectedFrame, setSelectedFrame } = useFrames()
 
   return (
     <div className="tools-panel">
@@ -26,6 +29,17 @@ export const ToolsPanel = () => {
       <div className="tools-panel__element">
         <div className="tools-panel__element__title">размер</div>
         <BrushSize value={tools.size} onChange={setSize} />
+      </div>
+      {/* базовый фон */}
+      <div className="tools-panel__element">
+        <div className="tools-panel__element__title">базовый фон</div>
+        <div
+          className={`frame base-background-frame ${selectedFrame === 'base' ? 'selected' : ''}`}
+          onClick={() => setSelectedFrame('base')}
+          title="Базовый фон"
+        >
+          <img src={baseBackground} alt="base-bg" className="frame__preview" />
+        </div>
       </div>
     </div>
   )

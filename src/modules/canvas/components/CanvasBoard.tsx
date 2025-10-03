@@ -1,5 +1,6 @@
 import './CanvasBoard.scss'
 import ClearIcon from '../../../assets/clear-frame.svg'
+import Dupe from '../../../assets/dupe.svg'
 import { useCanvasBoard } from '../hooks/useCanvasBoard'
 import { useOnionSkin } from '../hooks/useOnionSkin'
 
@@ -11,6 +12,7 @@ export const CanvasBoard = () => {
     draw,
     stopDrawing,
     clearCanvas,
+    dupePrevFrame,
   } = useCanvasBoard()
   const { onionRef } = useOnionSkin(containerRef)
 
@@ -33,6 +35,12 @@ export const CanvasBoard = () => {
         alt="clear-frame"
         className="canvas__clear-frame-btn"
         onClick={clearCanvas}
+      />
+      <img
+        src={Dupe}
+        alt="dupe-prev-frame"
+        className="canvas__dupe-prev-frame-btn"
+        onClick={dupePrevFrame}
       />
     </div>
   )
